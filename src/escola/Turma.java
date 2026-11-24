@@ -1,0 +1,30 @@
+package escola;
+import java.util.ArrayList;
+
+public class Turma {
+	
+	private String nome;
+	private ArrayList<Aluno> alunos;
+	
+	public Turma () {
+		this("Turma A");
+	}
+	
+	public Turma(String nome) {
+		this.nome = nome;
+		this.alunos = new ArrayList<>();
+	}
+	
+	public String getNome() {
+		return nome;
+	}
+	
+	public void adicionarAluno(Aluno aluno) {
+		alunos.add(aluno);
+	}
+	
+	public ArrayList<Aluno> listarAlunos() {
+		return new ArrayList<>(alunos);
+	}
+
+}

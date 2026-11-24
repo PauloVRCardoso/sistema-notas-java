@@ -10,8 +10,7 @@ public class Principal {
 		Scanner teclado = new Scanner(System.in);
 		
 		// Cria as listas
-		ArrayList<String> nomes = new ArrayList<>();
-		ArrayList<Double> medias = new ArrayList<>();
+		Turma turma = new Turma();
 		
 		int opcao = -1;
 		
@@ -21,7 +20,6 @@ public class Principal {
 			String nomeAluno;
 			double nota1;
 			double nota2;
-			double media;
 			
 			System.out.println();
 			System.out.println("======== SISTEMAS DE NOTAS ========");
@@ -65,38 +63,35 @@ public class Principal {
 						nota2 = teclado.nextDouble();
 					}
 					
-					// Cálculo da média
-					media = (nota1 + nota2) / 2;
+					//Criar o aluno com os dados digitados
+					Aluno alunoCadastrado = new Aluno(nomeAluno, nota1, nota2);
+					turma.adicionarAluno(alunoCadastrado);
 					
-					// Armazenar nas listas
-					nomes.add(nomeAluno);
-					medias.add(media);
 					
 					// Situação com operador ternário
-					String situacao = media >= 7 ? "Aprovado" : "Reprovado";
+					String situacao = alunoCadastrado.estaAprovado() ? "Aprovado" : "Reprovado";
 					
 					// Mostra o resultado
 					System.out.println("Aluno cadastrado com sucesso");
-					System.out.printf("Média: %.2f%n", media);
-					System.out.println("Situação" + situacao);
+					System.out.printf("Média: %.2f%n", alunoCadastrado.calcularMedia());
+					System.out.println("Situação: " + situacao);
 					
 					break;
 				
-				case 2:
+				case 2: {
+					ArrayList<Aluno> alunos = turma.listarAlunos();
 					
 					// Listar alunos
-					System.out.println("=== ALUNOS CADASTRADOS ===");
+					System.out.println("=== ALUNOS CADASTRADOS - " + turma.getNome() + " ===");
 					
-					if (nomes.size() == 0) {
+					if (alunos.isEmpty()) {
 						System.out.println("Nenhum aluno cadastrado!");
 					} else {
 						
-						for (int i = 0; i < nomes.size(); i++) {
+						for (Aluno aluno : alunos) {
+							exibirNomeEMedia(aluno);
 							
-							System.out.println("Aluno: " + nomes.get(i));
-							System.out.printf("Média: %.2f%n", medias.get(i));
-							
-							String resultado = medias.get(i) >= 7 ? "Aprovado" : "Reprovado";
+							String resultado = aluno.estaAprovado() ? "Aprovado" : "Reprovado";
 							
 							System.out.println("Situação: " + resultado);
 							System.out.println("-------------------------");
@@ -104,103 +99,83 @@ public class Principal {
 					}
 					
 				break;
+				}
 				
-				case 3:
+				case 3: {
+					ArrayList<Aluno> alunos = turma.listarAlunos();
 					
 					//Consultar aluno
 					System.out.println("Digite o nome do aluno: ");
 					String alunoProcurado = teclado.nextLine();
-					
-					if (nomes.contains(alunoProcurado)) {
+					Aluno alunoEncontrado = null;
 						
-						for (int i = 0; i < nomes.size(); i++) {
-							
-							if (nomes.get(i).equals(alunoProcurado)) {
-								
-								System.out.println("Aluno encontrado!");
-                                System.out.println("Nome: " + nomes.get(i));
-                                System.out.printf("Media: %.2f%n", medias.get(i));
-                                
-                                break;
-								
-							}
+					for (Aluno aluno : alunos) {
+						if (aluno.getNome().equals(alunoProcurado)) {
+							alunoEncontrado = aluno;
+                            break;                        
 						}
-					} else {
-						System.out.println("Aluno não encotrado!");
 					}
-				
-				break;
-				
-				case 4:
+						
+						if (alunoEncontrado == null) {
+							System.out.println("Aluno não encontrado!");
+						} else {
+							System.out.println("Aluno encontrado!");
+							System.out.println("Nome: " + alunoEncontrado.getNome());
+							System.out.printf("Média: %.2f%n", alunoEncontrado.calcularMedia());
+						}
+					break;
+				}
+							
+				case 4: {
+					ArrayList<Aluno> alunos = turma.listarAlunos();
 					
 					//Estatisticas
-					if (nomes.size() == 0) {
-						
+					if (alunos.isEmpty()) {
 						System.out.println("Nenhum aluno cadastrado!");
-						
-					} else {
-						
+					} else {						
 						double somaMedias = 0;
 						int aprovados = 0;
 						int reprovados = 0;
 						
-						for (int i = 0; i < medias.size(); i++) {
-							
-							double mediaAluno = medias.get(i);
-							
-							somaMedias += mediaAluno;
-							
-							if (mediaAluno >= 7) {								
+						for (Aluno aluno : alunos) {	
+							somaMedias += aluno.calcularMedia();							
+							if (aluno.estaAprovado()) {								
 								aprovados++;								
 							} else {							
 								reprovados++;
 							}
 						}
 						
-						double mediaGeral = somaMedias / medias.size();
+						double mediaGeral = somaMedias / alunos.size();
 						
 						System.out.println("=== ESTATISTICAS ===");
-						System.out.println("Total de alunos: " + nomes.size());
+						System.out.println("Total de alunos: " + alunos.size());
 						System.out.println("Aprovados: " + aprovados);
 						System.out.println("Reprovados: " + reprovados);
 						System.out.printf("Médias geral: %.2f%n", mediaGeral);
 					}
 					
 					break;
-					
-				case 5:
+				}
+				
+				case 5: {
 					
 					//Listas ordem reversa
 					System.out.println("=== ORDEM INVERSA ===");
+					ArrayList<Aluno> alunosInversos = turma.listarAlunos();
 					
-					if (nomes.size() == 0) {
-
+					if (alunosInversos.isEmpty()) {
                         System.out.println("Nenhum aluno cadastrado!");
+                    } else {                       
+                        Collections.reverse(alunosInversos);
 
-                    } else {
-
-                        // Criar copias para preservar a ordem original
-                        ArrayList<String> nomesInversos =
-                                new ArrayList<>(nomes);
-
-                        ArrayList<Double> mediasInversas =
-                                new ArrayList<>(medias);
-
-                        Collections.reverse(nomesInversos);
-                        Collections.reverse(mediasInversas);
-
-                        for (int i = 0; i < nomesInversos.size(); i++) {
-
-                            System.out.println("Aluno: " + nomesInversos.get(i));
-
-                            System.out.printf(
-                                    "Media: %.2f%n",
-                                    mediasInversas.get(i)
-                            );
+                        for (Aluno aluno : alunosInversos) {
+                        	exibirNomeEMedia(aluno);
                         }
                     }
 					
 					break;
+				}
 					
 				case 0:
 					
@@ -208,14 +183,18 @@ public class Principal {
 					System.out.println("Encerrando o sistema...");
 					break;
 					
-				default:
-					
-					System.out.println("Opção invalida!");
-					
+				default:		
+					System.out.println("Opção invalida!");			
 			}
 		}	
 		
 		teclado.close();
+		
+	}
+	
+	private static void exibirNomeEMedia(Aluno aluno) {
+		System.out.println("Aluno: " + aluno.getNome());
+		System.out.printf("Média: %.2f%n", aluno.calcularMedia());
 		
 	}
 }
