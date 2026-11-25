@@ -2,6 +2,7 @@ package escola;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 public class Principal {
 
@@ -9,7 +10,7 @@ public class Principal {
 		
 		Scanner teclado = new Scanner(System.in);
 		
-		// Cria as listas
+		// Cria o objeto turma
 		Turma turma = new Turma();
 		
 		int opcao = -1;
@@ -108,8 +109,11 @@ public class Principal {
 					System.out.println("Digite o nome do aluno: ");
 					String alunoProcurado = teclado.nextLine();
 					Aluno alunoEncontrado = null;
-						
-					for (Aluno aluno : alunos) {
+					
+					Iterator<Aluno> iterador = alunos.iterator();					
+					while (iterador.hasNext()) {
+						Aluno aluno = (Aluno) iterador.next();
+					
 						if (aluno.getNome().equals(alunoProcurado)) {
 							alunoEncontrado = aluno;
                             break;                        

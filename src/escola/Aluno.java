@@ -9,8 +9,8 @@ public class Aluno {
 	
 	public Aluno(String nome, double nota1, double nota2) {
 		this.nome = nome;
-		this.nota1 = nota1;
-		this.nota2 = nota2;
+		setNota1(nota1);
+		setNota2(nota2);
 	}
 	
 	public String getNome() {
@@ -23,6 +23,22 @@ public class Aluno {
 	
 	public boolean estaAprovado() {
 		return calcularMedia() >= MEDIA_MINIMA;
+	}
+	
+	public void setNota1(double valor) {
+		if (valor >= 0 && valor <= 10) {
+			this.nota1 = valor; 
+		} else {
+			System.out.println("Nota inválida! Digite um valor entre 0 e 10");
+		}
+	}
+	
+	public void setNota2(double valor) {
+		if (valor >= 0 && valor <= 10) {
+			this.nota2 = valor; 
+		} else {
+			System.out.println("Nota inválida! Digite um valor entre 0 e 10");
+		}
 	}
 
 }
