@@ -10,8 +10,15 @@ public class Principal {
 		
 		Scanner teclado = new Scanner(System.in);
 		
-		// Cria o objeto turma
-		Turma turma = new Turma();
+		System.out.println("Digite o nome do professor:");
+		String nomeProfessor = teclado.nextLine();
+		
+		System.out.println("Digite a matéria que o professor leciona:");
+		String materia = teclado.nextLine();
+		
+		//Cria os objetos
+		Professor professor = new Professor(nomeProfessor, materia);
+		Turma turma = new Turma("Turma A", professor);
 		
 		int opcao = -1;
 		
@@ -85,6 +92,11 @@ public class Principal {
 					// Listar alunos
 					System.out.println("=== ALUNOS CADASTRADOS - " + turma.getNome() + " ===");
 					
+					Professor professorResponsavel = turma.getProfessor();
+					
+					System.out.println("Professor responsável: " + professorResponsavel.getNome());
+					System.out.println("Matéria: " + professorResponsavel.getMateria());
+					
 					if (alunos.isEmpty()) {
 						System.out.println("Nenhum aluno cadastrado!");
 					} else {
@@ -156,7 +168,7 @@ public class Principal {
 						System.out.println("Total de alunos: " + alunos.size());
 						System.out.println("Aprovados: " + aprovados);
 						System.out.println("Reprovados: " + reprovados);
-						System.out.printf("Médias geral: %.2f%n", mediaGeral);
+						System.out.printf("Média geral: %.2f%n", mediaGeral);
 					}
 					
 					break;

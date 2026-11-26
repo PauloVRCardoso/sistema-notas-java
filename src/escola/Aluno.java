@@ -1,20 +1,15 @@
 package escola;
 
-public class Aluno {
+public class Aluno extends Pessoa{
 	
 	private static final double MEDIA_MINIMA = 7.0;
-	private String nome;
 	private double nota1;
 	private double nota2;
 	
 	public Aluno(String nome, double nota1, double nota2) {
-		this.nome = nome;
+		super(nome);
 		setNota1(nota1);
 		setNota2(nota2);
-	}
-	
-	public String getNome() {
-		return nome;
 	}
 	
 	public double calcularMedia() {
