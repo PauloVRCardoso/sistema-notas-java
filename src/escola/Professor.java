@@ -12,5 +12,11 @@ public class Professor extends Pessoa{
 	public String getMateria() {
 		return materia;
 	}
+	
+	@Override
+	public void exibirDados() {
+		System.out.println("Professor responsável: " + getNome());
+		System.out.println("Matéria: " + getMateria());
+	}
 
 }

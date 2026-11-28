@@ -25,6 +25,15 @@ public class Turma {
 		return professor;
 	}
 	
+	public ArrayList<Pessoa> listarPessoas() {
+		ArrayList<Pessoa> pessoas = new ArrayList<>();
+		
+		pessoas.add(professor);
+		pessoas.addAll(alunos);
+		
+		return pessoas;
+	}
+	
 	public void adicionarAluno(Aluno aluno) {
 		alunos.add(aluno);
 	}

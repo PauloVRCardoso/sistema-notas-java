@@ -6,10 +6,8 @@ public class Aluno extends Pessoa{
 	private double nota1;
 	private double nota2;
 	
-	public Aluno(String nome, double nota1, double nota2) {
+	public Aluno(String nome) {
 		super(nome);
-		setNota1(nota1);
-		setNota2(nota2);
 	}
 	
 	public double calcularMedia() {
@@ -20,19 +18,43 @@ public class Aluno extends Pessoa{
 		return calcularMedia() >= MEDIA_MINIMA;
 	}
 	
-	public void setNota1(double valor) {
-		if (valor >= 0 && valor <= 10) {
-			this.nota1 = valor; 
+	public SituacaoAluno obterSituacao() {
+		if (estaAprovado()) {
+			return SituacaoAluno.APROVADO;
 		} else {
-			System.out.println("Nota inválida! Digite um valor entre 0 e 10");
+			return SituacaoAluno.REPROVADO;
 		}
 	}
 	
-	public void setNota2(double valor) {
+	@Override
+	public void exibirDados() {
+		System.out.println("Aluno: " + getNome());
+		System.out.printf("Média: %.2f%n", calcularMedia());
+		
+		SituacaoAluno situacao = obterSituacao();
+		System.out.println("Situação: " + situacao);
+	}
+	
+	@Override
+	public String toString() {
+		return  "Aluno: " + getNome() + "\n" +
+				"Média: " + calcularMedia() + "\n" +
+				"Situação: " + obterSituacao();
+	}
+	
+	public void setNota1(double valor) throws NotaInvalidaException {
+		if (valor >= 0 && valor <= 10) {
+			this.nota1 = valor; 
+		} else { 
+			throw new NotaInvalidaException("Nota inválida! Digite um valor entre 0 e 10");
+		}
+	}
+	
+	public void setNota2(double valor)  throws NotaInvalidaException{
 		if (valor >= 0 && valor <= 10) {
 			this.nota2 = valor; 
 		} else {
-			System.out.println("Nota inválida! Digite um valor entre 0 e 10");
+			throw new NotaInvalidaException("Nota inválida! Digite um valor entre 0 e 10");
 		}
 	}
 

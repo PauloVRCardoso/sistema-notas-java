@@ -1,6 +1,6 @@
 package escola;
 
-public class Pessoa {
+public abstract class Pessoa {
 	
 	private String nome;
 	
@@ -11,5 +11,7 @@ public class Pessoa {
 	public String getNome() {
 		return nome;
 	}
+	
+	public abstract void exibirDados();
 
 }
